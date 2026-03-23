@@ -17,7 +17,7 @@ func main() {
 	r.HandleFunc("/dashboard", dashboard)
 	r.HandleFunc("/create", createUser)
 
-	// 🔥 Prometheus endpoint
+
 	r.Handle("/metrics", promhttp.Handler())
 
 	log.Println("Server started on :8080")
