@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/gorilla/mux"
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
@@ -12,10 +12,16 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", home)
 
-	// 🔥 THIS IS IMPORTANT
-	http.Handle("/metrics", promhttp.Handler())
+	initDB()
+
+	r := mux.NewRouter()
+
+	r.HandleFunc("/", loginPage)
+	r.HandleFunc("/dashboard", dashboard)
+	r.HandleFunc("/create", createUser)
+
+	log.Println("Server started on :8080")
 
 	http.ListenAndServe(":8080", nil)
 }
